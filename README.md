@@ -1,4 +1,4 @@
-# Flay - cuz Bobbly Flay seems like a pretty good chef
+# Flay - cuz Bobby Flay seems like a pretty good chef
 
 [![Build Status](https://travis-ci.org/sweeperio/flay.svg?branch=master)](https://travis-ci.org/sweeperio/flay)
 
