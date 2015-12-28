@@ -11,10 +11,11 @@ Feature: chef generate cookbook
       | CHEFGEN_FLAVOR | flay     |
     When I generate a cookbook named "foo"
     Then the exit status should be 0
-    Then I cd to "foo"
+    And I cd to "foo"
 
   Scenario: expected cookbook files are created
     Then the following files should exist:
+      | .bundle/config                                       |
       | .gitignore                                           |
       | .kitchen.yml                                         |
       | .rspec                                               |
@@ -35,9 +36,16 @@ Feature: chef generate cookbook
       | test/unit/recipes/default_spec.rb                    |
       | test/unit/spec_helper.rb                             |
 
-  # Scenario: rake tasks are available
-    # Then I bundle gems
-    # And I list the rake tasks
-    # Then the exit status should be 0
-    # And the output should match each of:
-      # | ^rake encrypt_data_bag[bag,item] |
+  Scenario: rake tasks are available
+    When I bundle install
+    And I list the rake tasks
+    Then the exit status should be 0
+    And the output should match each of:
+      | ^rake encrypt_data_bag |
+      | ^rake rubocop          |
+      | ^rake spec             |
+
+  Scenario: generated cookbook passes rubocop
+    When I bundle install
+    And I run the "rubocop" rake task
+    Then the exit status should be 0

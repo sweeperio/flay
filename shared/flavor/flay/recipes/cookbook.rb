@@ -3,11 +3,13 @@ cookbook_dir = File.join(context.cookbook_root, context.cookbook_name)
 
 # Common Cookbook Things
 directory cookbook_dir
+directory "#{cookbook_dir}/.bundle"
 directory "#{cookbook_dir}/recipes"
 
 cookbook_file("#{cookbook_dir}/.gitignore") { source "gitignore" }
 cookbook_file("#{cookbook_dir}/.rubocop.yml") { source "rubocop.yml" }
 cookbook_file("#{cookbook_dir}/Berksfile") { action :create_if_missing }
+cookbook_file("#{cookbook_dir}/.bundle/config") { source "bundle_config" }
 cookbook_file "#{cookbook_dir}/chefignore"
 cookbook_file "#{cookbook_dir}/Gemfile"
 cookbook_file "#{cookbook_dir}/Rakefile"
