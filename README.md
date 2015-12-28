@@ -1,12 +1,14 @@
-# Flay
+# Flay - cuz Bobbly Flay seems like a pretty good chef
 
 [![Build Status](https://travis-ci.org/sweeperio/flay.svg?branch=master)](https://travis-ci.org/sweeperio/flay)
 
-Bobby Flay is a pretty good chef, so let's piggy back on that.
+This repo is a custom cookbook/recipe template for use with the [ChefDK].
+
+[ChefDK]: https://downloads.chef.io/chef-dk/
 
 ## Installation
 
-* Make sure you've installed the [ChefDK](https://downloads.chef.io/chef-dk/)
+* Make sure you've installed the [ChefDK]
 * Run `chef gem install chef-flavor-flay`
 
 Add the following to your `~/knife.rb` file:
@@ -23,6 +25,7 @@ Celebrate! :rocket:
 ## Usage
 
 `chef generate cookbook my_cookbook`
+`chef generate recipe my_recipe`
 
 You'll be presented with a set of options, choose `flay`
 

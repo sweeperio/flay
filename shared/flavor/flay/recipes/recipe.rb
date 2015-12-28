@@ -4,23 +4,9 @@ recipe_path      = File.join(cookbook_dir, "recipes", "#{context.new_file_basena
 spec_helper_path = File.join(cookbook_dir, "test", "unit", "spec_helper.rb")
 spec_path        = File.join(cookbook_dir, "test", "unit", "recipes", "#{context.new_file_basename}_spec.rb")
 
-# Chefspec
-directory "#{cookbook_dir}/test/unit/recipes" do
-  recursive true
-end
+directory("#{cookbook_dir}/test/unit/recipes") { recursive true }
 
-cookbook_file spec_helper_path do
-  action :create_if_missing
-end
+cookbook_file(spec_helper_path) { action :create_if_missing }
 
-template spec_path do
-  source "recipe_spec.rb.erb"
-  helpers(ChefDK::Generator::TemplateHelper)
-  action :create_if_missing
-end
-
-# Recipe
-template recipe_path do
-  source "recipe.rb.erb"
-  helpers(ChefDK::Generator::TemplateHelper)
-end
+flay_template(recipe_path) { source "recipe.rb.erb" }
+flay_template(spec_path) { source "recipe_spec.rb.erb" }
