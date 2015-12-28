@@ -7,7 +7,7 @@ module ChefGen
 
       attr_reader :temp_path
 
-      def initialize(temp_path:)
+      def initialize(temp_path: nil)
         @temp_path = temp_path
       end
 
