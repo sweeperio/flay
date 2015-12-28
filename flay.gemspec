@@ -1,7 +1,7 @@
 # coding: utf-8
 Gem::Specification.new do |spec|
   spec.name          = "chef-flavor-flay"
-  spec.version       = "0.1.1"
+  spec.version       = "0.1.2"
   spec.authors       = ["pseudomuto"]
   spec.email         = ["developers@sweeper.io"]
 
