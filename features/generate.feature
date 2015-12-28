@@ -42,10 +42,8 @@ Feature: chef generate cookbook
     Then the exit status should be 0
     And the output should match each of:
       | ^rake encrypt_data_bag |
-      | ^rake rubocop          |
-      | ^rake spec             |
 
   Scenario: generated cookbook passes rubocop
     When I bundle install
-    And I run the "rubocop" rake task
+    And I run "rubocop" with bundle exec
     Then the exit status should be 0
