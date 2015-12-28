@@ -3,7 +3,7 @@ module ChefGen
     class Flay
       NAME    = "flay".freeze
       DESC    = "Generate a new cookbook with **better** defaults".freeze
-      VERSION = "0.1.0".freeze
+      VERSION = Gem.loaded_specs["chef-flavor-flay"].version.to_s.freeze
 
       attr_reader :temp_path
 

@@ -1,11 +1,7 @@
 # coding: utf-8
-lib = File.expand_path("../lib", __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "chef_gen/flavor/flay"
-
 Gem::Specification.new do |spec|
   spec.name          = "chef-flavor-flay"
-  spec.version       = ChefGen::Flavor::Flay::VERSION
+  spec.version       = "0.1.1"
   spec.authors       = ["pseudomuto"]
   spec.email         = ["developers@sweeper.io"]
 
