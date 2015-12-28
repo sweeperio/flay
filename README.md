@@ -11,7 +11,7 @@ This repo is a custom cookbook/recipe template for use with the [ChefDK].
 * Make sure you've installed the [ChefDK]
 * Run `chef gem install chef-flavor-flay`
 
-Add the following to your `~/knife.rb` file:
+Add the following to your `knife.rb` file:
 
 ```ruby
 if defined?(ChefDK::CLI)
@@ -24,8 +24,8 @@ Celebrate! :rocket:
 
 ## Usage
 
-`chef generate cookbook my_cookbook`
-`chef generate recipe my_recipe`
+* `chef generate cookbook my_cookbook`
+* `chef generate recipe my_recipe`
 
 You'll be presented with a set of options, choose `flay`
 
