@@ -1,5 +1,7 @@
 # Flay
 
+[![Build Status](https://travis-ci.org/sweeperio/flay.svg?branch=master)](https://travis-ci.org/sweeperio/flay)
+
 Bobby Flay is a pretty good chef, so let's piggy back on that.
 
 ## Installation
