@@ -2,7 +2,7 @@
 # Cookbook Name:: <%= cookbook_name %>
 # Spec:: <%= recipe_name %>
 #
-<%= license_description("#") %>
+<%= license_description("#").rstrip %>
 
 describe "<%= cookbook_name %>::<%= recipe_name %>" do
   cached(:chef_run) do
