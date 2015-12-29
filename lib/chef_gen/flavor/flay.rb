@@ -1,11 +1,8 @@
-require "flay/version"
-
 module ChefGen # rubocop:disable Style/ClassAndModuleChildren
   module Flavor # rubocop:disable Style/ClassAndModuleChildren
     class Flay
-      NAME    = "flay".freeze
-      DESC    = "Generate a new cookbook with **better** defaults".freeze
-      VERSION = Flay::VERSION
+      NAME = "flay".freeze
+      DESC = "Generate a new cookbook with **better** defaults".freeze
 
       attr_reader :temp_path
 
