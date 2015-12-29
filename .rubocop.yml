@@ -13,6 +13,9 @@ Style/Documentation:
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
 
+Style/SingleLineBlockParams:
+  Enabled: false
+
 Metrics/LineLength:
   Max: 120
 
