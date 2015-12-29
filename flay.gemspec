@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "chef-gen-flavors", "~> 0.9"
+  spec.add_runtime_dependency "thor", "~> 0.0"
 
   spec.post_install_message = <<-EOM
   Thanks for installing chef-flavor-flay! Be sure to update your knife.rb file
