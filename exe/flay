@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+ARGS = "-C sweeper.io -m developers@sweeper.io -I mit".freeze
+
+def cookbook(name)
+  `chef generate cookbook #{name} #{ARGS}`
+end
+
+def recipe(name)
+  `chef generate recipe #{name} #{ARGS}`
+end
+
+def usage
+  puts "USAGE:"
+  puts "flay cookbook NAME"
+  puts "flay recipe NAME"
+  exit 1
+end
+
+type, name = ARGV
+usage if ARGV.size != 2
+usage if type.nil? || name.nil?
+
+case type
+when "cookbook" then cookbook(name)
+when "recipe" then recipe(name)
+else
+  usage
+end

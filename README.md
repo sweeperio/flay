@@ -3,7 +3,10 @@
 [![Build Status](https://travis-ci.org/sweeperio/flay.svg?branch=master)](https://travis-ci.org/sweeperio/flay)
 
 This repo is a custom cookbook/recipe template for use with the [ChefDK]. It uses [chef-gen-flavors] to create a custom
-template that can be used with `chef generate [cookbook|recipe]` commands.
+template that can be used with `chef generate [cookbook|recipe]` commands. 
+
+It's pretty opinionated, but you could easily modify it to suit your needs, by modifying things in the 
+`shared/flavor/flay` directory.
 
 [ChefDK]: https://downloads.chef.io/chef-dk/
 [chef-gen-flavors]: https://github.com/jf647/chef-gen-flavors
@@ -13,6 +16,40 @@ template that can be used with `chef generate [cookbook|recipe]` commands.
 * Automatically create boilerplate cookbook code/files
 * Put some standards in place that are used consistently across all cookbooks
 * Generate simple, good examples for devs that are new to chef
+
+## What?
+
+* Normal setup in place...[Berkshelf], [ChefSpec], [Test Kitchen], etc.
+* Only ubuntu is supported and setup in ChefSpec and Test Kitchen (I said it was opinionated)
+* Adds [core] cookbook to the Berksfile
+* Adds [rubocop] with some updated (opinionated) settings
+* Updates all templates to pass `bundle exec rubocop && bundle exec rspec`
+* Adds a travis file for CI that will cache it's bundle for #webscale
+* Ensures `berks`, `chef`, `chefspec` and `rubocop` are in the Gemfile (pessimistically locked to current major version)
+* Creates a single `test` directory rather than spec/unit and test/integration
+* Adds a _dummy_ `encrypted_data_bag_secret` file for [Test Kitchen]
+* Adds `encrypt_data_bag` rake task for working with encrypted data bags in [Test Kitchen] (see note below)
+
+### Testing Encrypted Data Bags
+
+In order to make testing encrypted data bags easier, there's a convention (and rake task) in place in this template.
+
+The _test/integration/data_bags_ directory should contain subdirectories for each data bag you want to test (just like 
+your chef repo would).
+
+**To create an encrypted data bag item, follow these steps (assuming you're testing ejson/keys):**
+
+* Create `test/integration/data_bags/ejson/keys.plaintext.json` and add your items
+* Run `bundle exec rake encrypt_data_bag[ejson,keys]` (zsh users, you'll need to quote, escape or `unsetopt nomatch`)
+* Notice that `test/integration/data_bags/ejson/keys.json` has been created and contains the encrypted contents
+
+Updating follows the exact same process.
+
+[Berkshelf]: https://docs.chef.io/berkshelf.html
+[ChefSpec]: https://docs.chef.io/chefspec.html
+[Test Kitchen]: https://docs.chef.io/kitchen.html
+[core]: https://github.com/sweeperio/chef-core
+[rubocop]: https://docs.chef.io/rubocop.html
 
 ## Installation
 
@@ -34,6 +71,14 @@ Celebrate! :rocket:
 
 * `chef generate cookbook my_cookbook`
 * `chef generate recipe my_recipe` (from within the cookbook directory)
+
+If you're using this for sweeper cookbooks you should use these instead. They simply call the normal generate methods
+but pass parameters for maintainer, email and license.
+
+* `chef exec flay cookbook my_cookbook`
+* `chef exec flay recipe my_cookbook`
+
+### Example
 
 ```
 $ chef generate cookbook chef-demo-flay
