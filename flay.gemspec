@@ -1,7 +1,10 @@
 # coding: utf-8
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+require "flay/version"
+
 Gem::Specification.new do |spec|
   spec.name          = "chef-flavor-flay"
-  spec.version       = "0.2.1"
+  spec.version       = Flay::VERSION
   spec.authors       = ["pseudomuto"]
   spec.email         = ["developers@sweeper.io"]
 

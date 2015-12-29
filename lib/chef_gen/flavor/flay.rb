@@ -1,9 +1,11 @@
+require "flay/version"
+
 module ChefGen
   module Flavor
     class Flay
       NAME    = "flay".freeze
       DESC    = "Generate a new cookbook with **better** defaults".freeze
-      VERSION = "0.2.1".freeze
+      VERSION = Flay::VERSION
 
       attr_reader :temp_path
 
