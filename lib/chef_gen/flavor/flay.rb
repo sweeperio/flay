@@ -3,7 +3,7 @@ module ChefGen
     class Flay
       NAME    = "flay".freeze
       DESC    = "Generate a new cookbook with **better** defaults".freeze
-      VERSION = "0.1.2".freeze
+      VERSION = "0.2.0".freeze
 
       attr_reader :temp_path
 
