@@ -12,10 +12,6 @@ class Flay::Commands::Release < Thor::Group
     thor.register(self, as, as, "creates a release for this cookbook")
   end
 
-  def self.exit_on_failure?
-    true
-  end
-
   desc "creates a new release and uploads it"
 
   def fail_fast
@@ -37,8 +33,8 @@ class Flay::Commands::Release < Thor::Group
 
   def push_commits_and_tags
     say "Pushing commits and tags...", :green
-    fail Thor::Error, "Couldn't push commits" unless shell_exec("git push", show_output: false).last == 0
-    fail Thor::Error, "Couldn't push tags" unless shell_exec("git push --tags", show_output: false).last == 0
+    exit 1 unless shell_exec_quiet("git push", error_message: "Couldn't push commits")
+    exit 1 unless shell_exec_quiet("git push --tags", error_message: "Couldn't push tags")
   end
 
   def berks_upload
@@ -66,15 +62,11 @@ class Flay::Commands::Release < Thor::Group
   end
 
   def git_clean?
-    status = shell_exec("git diff --exit-code", show_output: false).last
-    say ERROR_GIT, :red unless status == 0
-    status == 0
+    shell_exec_quiet("git diff --exit-code", error_message: ERROR_GIT)
   end
 
   def git_committed?
-    status = shell_exec("git diff-index --quiet --cached HEAD", show_output: false).last
-    say ERROR_GIT, :red unless status == 0
-    status == 0
+    shell_exec_quiet("git diff-index --quiet --cached HEAD", error_message: ERROR_GIT)
   end
 
   def tag_exists?
