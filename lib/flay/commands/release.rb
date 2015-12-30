@@ -12,28 +12,37 @@ class Flay::Commands::Release < Thor::Group
     thor.register(self, as, as, "creates a release for this cookbook")
   end
 
+  def self.exit_on_failure?
+    true
+  end
+
   desc "creates a new release and uploads it"
 
   def fail_fast
-    fail Thor::Error, ERROR_GIT unless git_clean? && git_committed?
-    fail Thor::Error, ERROR_METADATA unless metadata_exists?
-    fail Thor::Error, ERROR_VERSION if version.nil?
+    exit 1 unless git_clean? && git_committed?
+    exit 1 unless metadata_exists?
+    exit 1 if version.nil?
   end
 
   def berks_install
+    say "Installing berks dependencies...", :green
     shell_exec("chef exec berks install")
   end
 
   def create_tag
-    shell_exec("git tag -a -m \"Version #{version}\" v#{version}") unless tag_exists?
+    return if tag_exists?
+    say "Creating tag for v#{version}...", :green
+    shell_exec("git tag -a -m \"Version #{version}\" v#{version}")
   end
 
   def push_commits_and_tags
-    fail Thor::Error, "Couldn't push commits" unless shell_exec("git push").last == 0
-    fail Thor::Error, "Couldn't push tags" unless shell_exec("git push --tags").last == 0
+    say "Pushing commits and tags...", :green
+    fail Thor::Error, "Couldn't push commits" unless shell_exec("git push", show_output: false).last == 0
+    fail Thor::Error, "Couldn't push tags" unless shell_exec("git push --tags", show_output: false).last == 0
   end
 
   def berks_upload
+    say "Uploading cookbook to chef server...", :green
     shell_exec("chef exec berks upload --no-ssl-verify")
   end
 
@@ -44,20 +53,28 @@ class Flay::Commands::Release < Thor::Group
       contents = File.read(File.join(Dir.pwd, "metadata.rb"))
       version  = VERSION_MATCH.match(contents)
       return version[1] if version && Gem::Version.correct?(version[1])
+
+      say ERROR_VERSION, :red
       nil
     end
   end
 
   def metadata_exists?
-    File.exist?(File.join(Dir.pwd, "metadata.rb"))
+    found = File.exist?(File.join(Dir.pwd, "metadata.rb"))
+    say ERROR_METADATA, :red unless found
+    found
   end
 
   def git_clean?
-    shell_exec("git diff --exit-code").last == 0
+    status = shell_exec("git diff --exit-code", show_output: false).last
+    say ERROR_GIT, :red unless status == 0
+    status == 0
   end
 
   def git_committed?
-    shell_exec("git diff-index --quiet --cached HEAD").last == 0
+    status = shell_exec("git diff-index --quiet --cached HEAD", show_output: false).last
+    say ERROR_GIT, :red unless status == 0
+    status == 0
   end
 
   def tag_exists?

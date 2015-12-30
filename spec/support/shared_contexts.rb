@@ -9,6 +9,11 @@ shared_context "command runners", :command do
     $stderr = STDERR
   end
 
+  def stub_known_command(cmd, success: true)
+    cli = known_commands.fetch(cmd)
+    stub_command(cli, result: [cli, "error", success ? 0 : 1])
+  end
+
   def invoke_command(*args, options: {})
     command = described_class.new
     command.options = options
