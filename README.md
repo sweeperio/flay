@@ -80,6 +80,8 @@ but pass parameters for maintainer, email and license.
 * `chef exec flay cookbook my_cookbook`
 * `chef exec flay recipe my_cookbook`
 
+There are a few other commands available. Run `chef exec flay help` for details.
+
 ### Example
 
 ```

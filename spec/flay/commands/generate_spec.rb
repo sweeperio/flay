@@ -14,12 +14,13 @@ describe Flay::Commands::Generate do
         described_class,
         "test",
         "test TYPE NAME",
-        "generate a cookbook/recipe"
+        "generate a cookbook/recipe using flay defaults"
       )
     end
   end
 
   describe "#cookbook", :command do
+    let(:args) { described_class::ARGS }
     let(:command_name) { "cookbook" }
     it_behaves_like "a command"
 
@@ -28,7 +29,7 @@ describe Flay::Commands::Generate do
     end
 
     context "when run successfully" do
-      before { stub_command("chef generate cookbook test") }
+      before { stub_command("chef generate cookbook test #{args}") }
 
       it "generates a cookbook using the ChefDK and prints the output" do
         invoke_command("test")
@@ -37,7 +38,7 @@ describe Flay::Commands::Generate do
     end
 
     context "when an error occurs" do
-      before { stub_command("chef generate cookbook test", result: ["out", "error", 1]) }
+      before { stub_command("chef generate cookbook test #{args}", result: ["out", "error", 1]) }
 
       it "prints both stdout and stderr" do
         invoke_command("test")
@@ -47,6 +48,7 @@ describe Flay::Commands::Generate do
   end
 
   describe "#recipe", :command do
+    let(:args) { described_class::ARGS }
     let(:command_name) { "recipe" }
     it_behaves_like "a command"
 
@@ -55,7 +57,7 @@ describe Flay::Commands::Generate do
     end
 
     context "when run successfully" do
-      before { stub_command("chef generate recipe test") }
+      before { stub_command("chef generate recipe test #{args}") }
 
       it "generates a recipe using the ChefDK and prints the output" do
         invoke_command("test")
@@ -64,7 +66,7 @@ describe Flay::Commands::Generate do
     end
 
     context "when an error occurs" do
-      before { stub_command("chef generate recipe test", result: ["out", "error", 1]) }
+      before { stub_command("chef generate recipe test #{args}", result: ["out", "error", 1]) }
 
       it "prints both stdout and stderr" do
         invoke_command("test")
