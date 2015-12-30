@@ -1,4 +1,12 @@
 module Flay::Helpers
+  def git_root
+    @git_root ||= begin
+      output, _, status = shell_exec("git rev-parse --show-toplevel")
+      return nil unless status == 0
+      output.chomp
+    end
+  end
+
   def shell_exec(command, show_output: true)
     output, error, status = Open3.capture3(command)
 

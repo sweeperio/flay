@@ -3,6 +3,7 @@ describe Flay::Commands::Release, :command do
     {
       berks_install: "chef exec berks install",
       berks_upload: "chef exec berks upload --no-ssl-verify",
+      git_root: "git rev-parse --show-toplevel",
       git_clean: "git diff --exit-code",
       git_committed: "git diff-index --quiet --cached HEAD",
       git_push: "git push",
@@ -37,6 +38,7 @@ describe Flay::Commands::Release, :command do
       stub_metadata(version: "0.1.0")
 
       %i(
+        git_root
         git_clean
         git_committed
         berks_install
@@ -53,8 +55,7 @@ describe Flay::Commands::Release, :command do
 
   context "when metadata.rb is not found or is missing a version" do
     before(:each) do
-      stub_known_command(:git_clean)
-      stub_known_command(:git_committed)
+      %i(git_root git_clean git_committed).each(&method(:stub_known_command))
     end
 
     it "exits with 1 when metadata not found" do
@@ -76,8 +77,17 @@ describe Flay::Commands::Release, :command do
     end
   end
 
+  context "when not a git repo" do
+    it "exits with 1" do
+      stub_known_command(:git_root, success: false)
+      expect { invoke }.to exit_with_code(1)
+      expect(output_lines).to include(described_class::ERROR_GIT)
+    end
+  end
+
   context "when git state is not clean" do
     before(:each) do
+      stub_known_command(:git_root)
       stub_metadata
     end
 

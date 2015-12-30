@@ -15,9 +15,8 @@ class Flay::Commands::Release < Thor::Group
   desc "creates a new release and uploads it"
 
   def fail_fast
-    exit 1 unless git_clean? && git_committed?
-    exit 1 unless metadata_exists?
-    exit 1 if version.nil?
+    exit 1 unless git_repo? && git_clean? && git_committed?
+    exit 1 unless metadata_exists? && version
   end
 
   def berks_install
@@ -59,6 +58,12 @@ class Flay::Commands::Release < Thor::Group
     found = File.exist?(File.join(Dir.pwd, "metadata.rb"))
     say ERROR_METADATA, :red unless found
     found
+  end
+
+  def git_repo?
+    return true unless git_root.nil?
+    say ERROR_GIT, :red
+    false
   end
 
   def git_clean?
