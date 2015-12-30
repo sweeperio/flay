@@ -4,6 +4,7 @@ class Flay::CLI < Thor
   package_name "flay"
 
   Flay::Commands::Generate.register_with(self, as: "generate")
+  Flay::Commands::Release.register_with(self, as: "release")
 
   method_option(
     :chef_path,

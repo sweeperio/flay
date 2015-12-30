@@ -14,6 +14,11 @@ describe Flay::CLI do
     end
   end
 
+  context "#release" do
+    let(:command_name) { "release" }
+    it_behaves_like "a registered command"
+  end
+
   context "#link", :command do
     let(:command_name) { "link" }
     it_behaves_like "a command"
