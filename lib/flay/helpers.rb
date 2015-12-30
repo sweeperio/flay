@@ -4,5 +4,6 @@ module Flay::Helpers
 
     say output
     say error, :red unless status == 0
+    [output, error, status]
   end
 end
