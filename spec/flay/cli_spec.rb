@@ -14,6 +14,29 @@ describe Flay::CLI do
     end
   end
 
+  context "#link", :command do
+    let(:command_name) { "link" }
+    it_behaves_like "a command"
+
+    it "creates a symlink for .chef to default target" do
+      expect_any_instance_of(described_class).to receive(:create_link).with(
+        File.join(Dir.pwd, ".chef"),
+        "~/.chef-sweeper"
+      )
+
+      invoke_command
+    end
+
+    it "uses --chef-path option as target when supplied" do
+      expect_any_instance_of(described_class).to receive(:create_link).with(
+        File.join(Dir.pwd, ".chef"),
+        "/spec/.chef"
+      )
+
+      described_class.start(%w(link --chef-path=/spec/.chef))
+    end
+  end
+
   context "#version", :command do
     let(:command_name) { "version" }
     it_behaves_like "a command"

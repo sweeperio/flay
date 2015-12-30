@@ -1,16 +1,18 @@
 shared_context "command runners", :command do
-  before(:each) do
+  around(:each) do |example|
     $stdout = StringIO.new
     $stderr = StringIO.new
-  end
 
-  after(:each) do
+    example.run
+
     $stdout = STDOUT
     $stderr = STDERR
   end
 
-  def invoke_command(*args)
-    described_class.new.invoke(command_name, args)
+  def invoke_command(*args, options: {})
+    command = described_class.new
+    command.options = options
+    command.invoke(command_name, args)
   end
 
   def stdout
