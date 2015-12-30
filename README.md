@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/sweeperio/flay.svg?branch=master)](https://travis-ci.org/sweeperio/flay)
 [![Gem Version](https://badge.fury.io/rb/chef-flavor-flay.svg)](https://badge.fury.io/rb/chef-flavor-flay)
+[![Coverage Status](https://coveralls.io/repos/sweeperio/flay/badge.svg?branch=master&service=github)](https://coveralls.io/github/sweeperio/flay?branch=master)
 
 This repo is a custom cookbook/recipe template for use with the [ChefDK]. It uses [chef-gen-flavors] to create a custom
 template that can be used with `chef generate [cookbook|recipe]` commands. 
@@ -78,6 +79,8 @@ but pass parameters for maintainer, email and license.
 
 * `chef exec flay cookbook my_cookbook`
 * `chef exec flay recipe my_cookbook`
+
+There are a few other commands available. Run `chef exec flay help` for details.
 
 ### Example
 

@@ -1,7 +1,10 @@
 # coding: utf-8
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+require "flay/version"
+
 Gem::Specification.new do |spec|
   spec.name          = "chef-flavor-flay"
-  spec.version       = "0.2.1"
+  spec.version       = Flay::VERSION
   spec.authors       = ["pseudomuto"]
   spec.email         = ["developers@sweeper.io"]
 
@@ -16,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_runtime_dependency "chef-gen-flavors", "~> 0.9"
+  spec.add_runtime_dependency "thor", "~> 0.0"
 
   spec.post_install_message = <<-EOM
   Thanks for installing chef-flavor-flay! Be sure to update your knife.rb file
