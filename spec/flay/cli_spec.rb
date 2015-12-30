@@ -13,4 +13,14 @@ describe Flay::CLI do
       expect(command.usage).to eq("generate TYPE NAME")
     end
   end
+
+  context "#version", :command do
+    let(:command_name) { "version" }
+    it_behaves_like "a command"
+
+    it "displays the current version" do
+      invoke_command
+      expect(stdout).to eq("flay version: #{Flay::VERSION}")
+    end
+  end
 end
