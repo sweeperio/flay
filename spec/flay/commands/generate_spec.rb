@@ -1,10 +1,6 @@
 describe Flay::Commands::Generate do
   let(:command) { described_class.commands[command_name] }
 
-  def invoke_command(*args)
-    described_class.new.invoke(command_name, args)
-  end
-
   def stub_command(command, result: ["out", "error", 0])
     expect(Open3).to receive(:capture3).with(command).and_return(result)
   end
