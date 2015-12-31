@@ -19,6 +19,11 @@ flay_template "#{cookbook_dir}/README.md"
 # ChefSpec
 directory("#{cookbook_dir}/test/unit/recipes") { recursive true }
 
+cookbook_file "#{cookbook_dir}/test/unit/spec_helper.rb" do
+  source "spec_helper.rb"
+  action :create_if_missing
+end
+
 cookbook_file("#{cookbook_dir}/.rspec") { source "rspec" }
 cookbook_file("#{cookbook_dir}/.travis.yml") { source "travis.yml" }
 
@@ -36,11 +41,6 @@ cookbook_file("#{cookbook_dir}/test/integration/data_bags/ejson/keys.plaintext.j
 
 cookbook_file "#{cookbook_dir}/test/integration/helpers/serverspec/spec_helper.rb" do
   source "serverspec_spec_helper.rb"
-  action :create_if_missing
-end
-
-cookbook_file "#{cookbook_dir}/test/unit/spec_helper.rb" do
-  source "spec_helper.rb"
   action :create_if_missing
 end
 

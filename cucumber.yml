@@ -1,0 +1,2 @@
+default:  -r features --format "pretty" --tags ~@wip --snippet-type regexp
+wip:      -r features --tags @wip --wip
