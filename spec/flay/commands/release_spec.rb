@@ -36,6 +36,16 @@ describe Flay::Commands::Release, :command, :shell_commands do
     it "doesn't raise or exit" do
       expect { invoke }.to_not raise_error
     end
+
+    it "lets the caller know what's happening" do
+      invoke
+
+      expect(output_lines).to include("Installing berks dependencies...")
+      expect(output_lines).to include("Creating tag for v0.1.0...")
+      expect(output_lines).to include("Pushing commits and tags...")
+      expect(output_lines).to include("Uploading cookbook to chef server...")
+      expect(output_lines).to include("Done! Version v0.1.0 pushed to git remote and chef server.")
+    end
   end
 
   context "when metadata.rb is not found or is missing a version" do

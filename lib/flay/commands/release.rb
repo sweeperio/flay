@@ -41,6 +41,10 @@ class Flay::Commands::Release < Thor::Group
     shell_exec("chef exec berks upload --no-ssl-verify")
   end
 
+  def all_done
+    say "Done! Version v#{version} pushed to git remote and chef server.", :green
+  end
+
   private
 
   def version
