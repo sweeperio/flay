@@ -71,21 +71,33 @@ Celebrate! :rocket:
 
 ## Usage
 
-* `chef generate cookbook my_cookbook`
-* `chef generate recipe my_recipe` (from within the cookbook directory)
-
-If you're using this for sweeper cookbooks you should use these instead. They simply call the normal generate methods
-but pass parameters for maintainer, email and license.
-
 * `chef exec flay cookbook my_cookbook`
-* `chef exec flay recipe my_cookbook`
+* `chef exec flay recipe my_cookbook` (from within the cookbook directory)
+* `chef exec flay release` (see below)
 
 There are a few other commands available. Run `chef exec flay help` for details.
+
+### Releasing Cookbooks
+
+Modelled after bundler's `rake release`, there's `chef exec flay release`.
+
+When the following conditions are met:
+
+* `Dir.pwd` is a git repo (or a subdirectory of one)
+* There are no uncommitted changes in git
+* _metadata.rb_ exists (at the root of the repo) and contains a valid version
+
+It will run:
+
+* `git tag -a -m "Version #{version}" v#{version}` - unless the tag already exists
+* `git push && git push --tags`
+* `chef exec berks install`
+* `chef exec berks upload --no-ssl-verify`
 
 ### Example
 
 ```
-$ chef generate cookbook chef-demo-flay
+$ chef exec flay generate cookbook chef-demo-flay
 
 using ChefGen flavor 'flay'
 Compiling Cookbooks...
