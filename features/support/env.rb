@@ -1,6 +1,7 @@
 require "aruba/cucumber"
 require "chef_gen/flavors/cucumber"
 
-Before do
-  @aruba_timeout_seconds = 30
+Aruba.configure do |config|
+  config.log_level    = :fatal
+  config.exit_timeout = 30
 end

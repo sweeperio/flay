@@ -5,17 +5,13 @@ Feature: chef generate cookbook
 
   Background:
     Given a knife.rb that uses chef-gen-flavors
-    And I set the environment variables to:
-      | variable       | value    |
-      |----------------|----------|
-      | CHEFGEN_FLAVOR | flay     |
+    And I set the environment variable "CHEFGEN_FLAVOR" to "flay"
     When I generate a cookbook named "foo"
     Then the exit status should be 0
     And I cd to "foo"
 
   Scenario: expected cookbook files are created
     Then the following files should exist:
-      | .bundle/config                                       |
       | .gitignore                                           |
       | .kitchen.yml                                         |
       | .rspec                                               |

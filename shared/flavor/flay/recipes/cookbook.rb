@@ -9,7 +9,6 @@ directory "#{cookbook_dir}/recipes"
 cookbook_file("#{cookbook_dir}/.gitignore") { source "gitignore" }
 cookbook_file("#{cookbook_dir}/.rubocop.yml") { source "rubocop.yml" }
 cookbook_file("#{cookbook_dir}/Berksfile") { action :create_if_missing }
-cookbook_file("#{cookbook_dir}/.bundle/config") { source "bundle_config" }
 cookbook_file "#{cookbook_dir}/chefignore"
 cookbook_file "#{cookbook_dir}/Gemfile"
 cookbook_file "#{cookbook_dir}/Rakefile"
@@ -19,6 +18,11 @@ flay_template "#{cookbook_dir}/README.md"
 
 # ChefSpec
 directory("#{cookbook_dir}/test/unit/recipes") { recursive true }
+
+cookbook_file "#{cookbook_dir}/test/unit/spec_helper.rb" do
+  source "spec_helper.rb"
+  action :create_if_missing
+end
 
 cookbook_file("#{cookbook_dir}/.rspec") { source "rspec" }
 cookbook_file("#{cookbook_dir}/.travis.yml") { source "travis.yml" }
@@ -37,11 +41,6 @@ cookbook_file("#{cookbook_dir}/test/integration/data_bags/ejson/keys.plaintext.j
 
 cookbook_file "#{cookbook_dir}/test/integration/helpers/serverspec/spec_helper.rb" do
   source "serverspec_spec_helper.rb"
-  action :create_if_missing
-end
-
-cookbook_file "#{cookbook_dir}/test/unit/spec_helper.rb" do
-  source "spec_helper.rb"
   action :create_if_missing
 end
 
