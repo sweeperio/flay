@@ -76,6 +76,8 @@ Berksfile
 Berksfile.lock
 cookbooks/*
 tmp
+vendor
+vendor/*
 
 # Cookbooks #
 #############
