@@ -1,20 +1,16 @@
-describe Flay::Commands::Release, :command do
-  let(:known_commands) do
+describe Flay::Commands::Release, :command, :shell_commands do
+  let(:shell_commands) do
     {
-      berks_install: "chef exec berks install",
-      berks_upload: "chef exec berks upload --no-ssl-verify",
-      git_root: "git rev-parse --show-toplevel",
-      git_clean: "git diff --exit-code",
-      git_committed: "git diff-index --quiet --cached HEAD",
-      git_push: "git push",
-      git_push_tags: "git push --tags"
+      berks_install: ["chef exec berks install", "", ""],
+      berks_upload: ["chef exec berks upload --no-ssl-verify", "", ""],
+      git_root: ["git rev-parse --show-toplevel", Dir.pwd, ""],
+      git_clean: ["git diff --exit-code", "", ""],
+      git_committed: ["git diff-index --quiet --cached HEAD", "", ""],
+      git_push: ["git push", "", ""],
+      git_push_tags: ["git push --tags", "", ""],
+      git_tag: ["git tag", "", ""],
+      git_tag_create: ["git tag -a -m \"Version 0.1.0\" v0.1.0", "", ""]
     }
-  end
-
-  let(:metadata_path) { File.join(Dir.pwd, "metadata.rb") }
-
-  def invoke
-    described_class.new.invoke_all
   end
 
   context ".register_with" do
@@ -33,19 +29,8 @@ describe Flay::Commands::Release, :command do
 
   context "when successful" do
     before(:each) do
-      stub_git_tags
-      stub_git_tag("0.1.0")
-      stub_metadata(version: "0.1.0")
-
-      %i(
-        git_root
-        git_clean
-        git_committed
-        berks_install
-        git_push
-        git_push_tags
-        berks_upload
-      ).each(&method(:stub_known_command))
+      shell_commands.keys.each(&method(:stub_shell_command))
+      stub_metadata(:metadata)
     end
 
     it "doesn't raise or exit" do
@@ -55,23 +40,23 @@ describe Flay::Commands::Release, :command do
 
   context "when metadata.rb is not found or is missing a version" do
     before(:each) do
-      %i(git_root git_clean git_committed).each(&method(:stub_known_command))
+      %i(git_root git_clean git_committed).each(&method(:stub_shell_command))
     end
 
-    it "exits with 1 when metadata not found" do
-      stub_metadata(found: false)
+    it "exits with 1 when metadata.rb not found" do
+      expect(command).to receive(:metadata_path).and_return(nil)
       expect { invoke }.to exit_with_code(1)
       expect(output_lines).to include(described_class::ERROR_METADATA)
     end
 
     it "exits with 1 when version not found" do
-      stub_metadata(version: nil)
+      stub_metadata(:metadata_no_version)
       expect { invoke }.to exit_with_code(1)
       expect(output_lines).to include(described_class::ERROR_VERSION)
     end
 
     it "exits with 1 when version is not valid" do
-      stub_metadata(version: "abc")
+      stub_metadata(:metadata_bad_version)
       expect { invoke }.to exit_with_code(1)
       expect(output_lines).to include(described_class::ERROR_VERSION)
     end
@@ -79,7 +64,7 @@ describe Flay::Commands::Release, :command do
 
   context "when not a git repo" do
     it "exits with 1" do
-      stub_known_command(:git_root, success: false)
+      stub_shell_command(:git_root, status: 1)
       expect { invoke }.to exit_with_code(1)
       expect(output_lines).to include(described_class::ERROR_GIT)
     end
@@ -87,21 +72,19 @@ describe Flay::Commands::Release, :command do
 
   context "when git state is not clean" do
     before(:each) do
-      stub_known_command(:git_root)
-      stub_metadata
+      stub_shell_command(:git_root)
+      stub_metadata(:metadata)
     end
 
     it "exits with 1 when there are unstaged changes" do
-      stub_known_command(:git_clean, success: false)
+      stub_shell_command(:git_clean, status: 1)
       expect { invoke }.to exit_with_code(1)
-      expect(output_lines).to include(described_class::ERROR_GIT)
     end
 
     it "exits with 1 when there are uncommitted changes" do
-      stub_known_command(:git_clean)
-      stub_known_command(:git_committed, success: false)
+      stub_shell_command(:git_clean)
+      stub_shell_command(:git_committed, status: 1)
       expect { invoke }.to exit_with_code(1)
-      expect(output_lines).to include(described_class::ERROR_GIT)
     end
   end
 end

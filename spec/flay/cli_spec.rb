@@ -29,7 +29,7 @@ describe Flay::CLI do
         "~/.chef-sweeper"
       )
 
-      invoke_command
+      invoke
     end
 
     it "uses --chef-path option as target when supplied" do
@@ -47,7 +47,7 @@ describe Flay::CLI do
     it_behaves_like "a command"
 
     it "displays the current version" do
-      invoke_command
+      invoke
       expect(stdout).to eq("flay version: #{Flay::VERSION}")
     end
   end

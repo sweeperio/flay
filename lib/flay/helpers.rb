@@ -1,7 +1,12 @@
 module Flay::Helpers
+  def metadata_path
+    return nil if git_root.nil?
+    File.join(git_root, "metadata.rb")
+  end
+
   def git_root
     @git_root ||= begin
-      output, _, status = shell_exec("git rev-parse --show-toplevel")
+      output, _, status = shell_exec("git rev-parse --show-toplevel", show_output: false)
       return nil unless status == 0
       output.chomp
     end

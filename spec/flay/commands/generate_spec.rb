@@ -1,5 +1,12 @@
-describe Flay::Commands::Generate do
-  let(:command) { described_class.commands[command_name] }
+describe Flay::Commands::Generate, :shell_commands do
+  let(:subcommand) { described_class.commands[command_name] }
+
+  let(:shell_commands) do
+    {
+      generate_cookbook: ["chef generate cookbook test #{described_class::ARGS}", "out", "error"],
+      generate_recipe: ["chef generate recipe test #{described_class::ARGS}", "out", "error"]
+    }
+  end
 
   context ".register_with" do
     it "registers itself with the specified Thor" do
@@ -16,56 +23,54 @@ describe Flay::Commands::Generate do
   end
 
   describe "#cookbook", :command do
-    let(:args) { described_class::ARGS }
     let(:command_name) { "cookbook" }
     it_behaves_like "a command"
 
     it "sets the usage string appropriately" do
-      expect(command.usage).to eq("cookbook NAME")
+      expect(subcommand.usage).to eq("cookbook NAME")
     end
 
     context "when run successfully" do
-      before { stub_command("chef generate cookbook test #{args}") }
+      before(:each) { stub_shell_command(:generate_cookbook) }
 
       it "generates a cookbook using the ChefDK and prints the output" do
-        invoke_command("test")
+        invoke("test")
         expect(stdout).to eq("out")
       end
     end
 
     context "when an error occurs" do
-      before { stub_command("chef generate cookbook test #{args}", result: ["out", "error", 1]) }
+      before(:each) { stub_shell_command(:generate_cookbook, status: 1, include_both: true) }
 
       it "prints both stdout and stderr" do
-        invoke_command("test")
+        invoke("test")
         expect(output_lines).to eq(%w(out error))
       end
     end
   end
 
   describe "#recipe", :command do
-    let(:args) { described_class::ARGS }
     let(:command_name) { "recipe" }
     it_behaves_like "a command"
 
     it "sets the usage string appropriately" do
-      expect(command.usage).to eq("recipe NAME")
+      expect(subcommand.usage).to eq("recipe NAME")
     end
 
     context "when run successfully" do
-      before { stub_command("chef generate recipe test #{args}") }
+      before(:each) { stub_shell_command(:generate_recipe) }
 
       it "generates a recipe using the ChefDK and prints the output" do
-        invoke_command("test")
+        invoke("test")
         expect(stdout).to eq("out")
       end
     end
 
     context "when an error occurs" do
-      before { stub_command("chef generate recipe test #{args}", result: ["out", "error", 1]) }
+      before(:each) { stub_shell_command(:generate_recipe, status: 1, include_both: true) }
 
       it "prints both stdout and stderr" do
-        invoke_command("test")
+        invoke("test")
         expect(output_lines).to eq(%w(out error))
       end
     end

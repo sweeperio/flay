@@ -2,7 +2,7 @@ class Flay::Commands::Release < Thor::Group
   include Flay::Helpers
   include Thor::Actions
 
-  ERROR_METADATA = "metadata.rb not found".freeze
+  ERROR_METADATA = "metadata.rb file not found in current repo".freeze
   ERROR_GIT      = "There are files that need to be committed before releasing".freeze
   ERROR_VERSION  = "Missing or invalid version in metadata.rb".freeze
 
@@ -16,7 +16,7 @@ class Flay::Commands::Release < Thor::Group
 
   def fail_fast
     exit 1 unless git_repo? && git_clean? && git_committed?
-    exit 1 unless metadata_exists? && version
+    exit 1 if version.nil?
   end
 
   def berks_install
@@ -25,7 +25,7 @@ class Flay::Commands::Release < Thor::Group
   end
 
   def create_tag
-    return if tag_exists?
+    say "Tag for v#{version} already exists!", :green && return if tag_exists?
     say "Creating tag for v#{version}...", :green
     shell_exec("git tag -a -m \"Version #{version}\" v#{version}")
   end
@@ -44,8 +44,10 @@ class Flay::Commands::Release < Thor::Group
   private
 
   def version
+    return nil unless metadata_exists?
+
     @version ||= begin
-      contents = File.read(File.join(Dir.pwd, "metadata.rb"))
+      contents = File.read(metadata_path)
       version  = VERSION_MATCH.match(contents)
       return version[1] if version && Gem::Version.correct?(version[1])
 
@@ -55,9 +57,9 @@ class Flay::Commands::Release < Thor::Group
   end
 
   def metadata_exists?
-    found = File.exist?(File.join(Dir.pwd, "metadata.rb"))
-    say ERROR_METADATA, :red unless found
-    found
+    path = metadata_path
+    say ERROR_METADATA, :red unless path && File.exist?(path)
+    path && File.exist?(path)
   end
 
   def git_repo?
