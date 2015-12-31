@@ -15,7 +15,6 @@ Feature: chef generate cookbook
 
   Scenario: expected cookbook files are created
     Then the following files should exist:
-      | .bundle/config                                       |
       | .gitignore                                           |
       | .kitchen.yml                                         |
       | .rspec                                               |
