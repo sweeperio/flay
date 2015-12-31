@@ -7,7 +7,6 @@ Feature: chef generate recipe
     When I cd to "foo"
     And I generate a recipe named "test"
 
-  @announce-output
   Scenario: expected files are created
     Then the following files should exist:
       | recipes/test.rb                |

@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
 
+ENV["CHEFGEN_FLAVOR"] = "flay"
+
 require "flay"
 Flay::CLI.start
