@@ -26,7 +26,7 @@ describe Flay::CLI do
     it "creates a symlink for .chef to default target" do
       expect_any_instance_of(described_class).to receive(:create_link).with(
         File.join(Dir.pwd, ".chef"),
-        "~/.chef-sweeper"
+        "~/.chef-sweeper/"
       )
 
       invoke
@@ -35,7 +35,16 @@ describe Flay::CLI do
     it "uses --chef-path option as target when supplied" do
       expect_any_instance_of(described_class).to receive(:create_link).with(
         File.join(Dir.pwd, ".chef"),
-        "/spec/.chef"
+        "/spec/.chef/"
+      )
+
+      described_class.start(%w(link --chef-path=/spec/.chef/))
+    end
+
+    it "will ensure the symlink links directories" do
+      expect_any_instance_of(described_class).to receive(:create_link).with(
+        File.join(Dir.pwd, ".chef"),
+        "/spec/.chef/"
       )
 
       described_class.start(%w(link --chef-path=/spec/.chef))
