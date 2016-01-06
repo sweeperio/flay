@@ -7,6 +7,7 @@ property :use_helpers, [TrueClass, FalseClass], default: true
 action :create do
   template new_resource.name do
     source new_resource.source
+    helper(:sanitized_cookbook_name) { cookbook_name.sub(/\Achef-/, "") }
     helpers new_resource.helpers
   end
 end
@@ -14,6 +15,7 @@ end
 action :create_if_missing do
   template new_resource.name do
     source new_resource.source
+    helper(:sanitized_cookbook_name) { cookbook_name.sub(/\Achef-/, "") }
     helpers new_resource.helpers
     action :create_if_missing
   end

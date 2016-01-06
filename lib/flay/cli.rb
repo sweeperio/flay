@@ -10,12 +10,15 @@ class Flay::CLI < Thor
     :chef_path,
     type: :string,
     desc: "The path that contains your knife.rb file",
-    default: "~/.chef-sweeper"
+    default: "~/.chef-sweeper/"
   )
   desc "link [--chef-path=PATH]", "symlinks .chef to --chef-path"
   long_desc "Creates a symlink in the current directory from .chef to --chef-path"
   def link
-    create_link File.join(Dir.pwd, ".chef"), options.fetch("chef_path")
+    target_path = options.fetch("chef_path")
+    target_path << "/" unless target_path.end_with?("/")
+
+    create_link File.join(Dir.pwd, ".chef"), target_path
   end
 
   desc "version", "display the current version"

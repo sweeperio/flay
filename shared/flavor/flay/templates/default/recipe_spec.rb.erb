@@ -1,10 +1,10 @@
 #
-# Cookbook Name:: <%= cookbook_name %>
+# Cookbook Name:: <%= sanitized_cookbook_name %>
 # Spec:: <%= recipe_name %>
 #
 <%= license_description("#").rstrip %>
 
-describe "<%= cookbook_name %>::<%= recipe_name %>" do
+describe "<%= sanitized_cookbook_name %>::<%= recipe_name %>" do
   cached(:chef_run) do
     runner = ChefSpec::SoloRunner.new
     runner.converge(described_recipe)
