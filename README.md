@@ -5,10 +5,9 @@
 [![Coverage Status](https://coveralls.io/repos/sweeperio/flay/badge.svg?branch=master&service=github)](https://coveralls.io/github/sweeperio/flay?branch=master)
 
 This repo is a custom cookbook/recipe template for use with the [ChefDK]. It uses [chef-gen-flavors] to create a custom
-template that can be used with `chef generate [cookbook|recipe]` commands. 
+template that can be used with `chef generate [cookbook|recipe]` commands.
 
-It's pretty opinionated, but you could easily modify it to suit your needs, by modifying things in the 
-`shared/flavor/flay` directory.
+It's very opinionated and works with the sweeperio infrastructure specifically.
 
 [ChefDK]: https://downloads.chef.io/chef-dk/
 [chef-gen-flavors]: https://github.com/jf647/chef-gen-flavors
@@ -22,12 +21,12 @@ It's pretty opinionated, but you could easily modify it to suit your needs, by m
 ## What?
 
 * Normal setup in place...[Berkshelf], [ChefSpec], [Test Kitchen], etc.
-* Only ubuntu is supported and setup in ChefSpec and Test Kitchen (I said it was opinionated)
-* Adds [core] cookbook to the Berksfile
+* _**Only ubuntu**_ is supported and setup in ChefSpec and Test Kitchen (I said it was opinionated)
+* Sets up berks to use our berks api
+* Adds [core] cookbook to metadata.rb
 * Adds [rubocop] with some updated (opinionated) settings
 * Updates all templates to pass `bundle exec rubocop && bundle exec rspec`
-* Adds a travis file for CI that will cache it's bundle for #webscale
-* Ensures `berks`, `chef`, `chefspec` and `rubocop` are in the Gemfile (pessimistically locked to current major version)
+* Adds a travis file for CI that will use the chefdk to run tests
 * Creates a single `test` directory rather than spec/unit and test/integration
 * Adds a _dummy_ `encrypted_data_bag_secret` file for [Test Kitchen]
 * Adds `encrypt_data_bag` rake task for working with encrypted data bags in [Test Kitchen] (see note below)
