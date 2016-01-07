@@ -7,7 +7,7 @@ spec_path        = File.join(cookbook_dir, "test", "unit", "recipes", "#{context
 directory("#{cookbook_dir}/test/unit/recipes") { recursive true }
 
 cookbook_file spec_helper_path do
-  source "spec_helper.rb"
+  source "test/unit/spec_helper.rb"
   action :create_if_missing
 end
 
