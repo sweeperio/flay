@@ -19,11 +19,12 @@ Feature: chef generate cookbook
       | .travis.yml                                          |
       | Berksfile                                            |
       | chefignore                                           |
-      | Gemfile                                              |
       | metadata.rb                                          |
       | Rakefile                                             |
       | README.md                                            |
       | recipes/default.rb                                   |
+      | test/chef/knife.rb                                   |
+      | test/chef/client.enc                                 |
       | test/integration/data_bags/ejson/keys.json           |
       | test/integration/data_bags/ejson/keys.plaintext.json |
       | test/integration/default/serverspec/default_spec.rb  |
@@ -37,9 +38,15 @@ Feature: chef generate cookbook
     And I list the rake tasks
     Then the exit status should be 0
     And the output should match each of:
-      | ^rake encrypt_data_bag |
+      | ^rake encrypt_data_bag     |
+      | ^rake foodcritic           |
+      | ^rake rubocop              |
+      | ^rake rubocop:auto_correct |
+      | ^rake spec                 |
+      | ^rake style                |
+      | ^rake test                 |
 
-  Scenario: generated cookbook passes rubocop
+  Scenario: generated cookbook passes style tests
     When I bundle install
-    And I run "rubocop" with bundle exec
+    And I run rake style
     Then the exit status should be 0
