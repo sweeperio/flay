@@ -19,6 +19,9 @@ Feature: chef generate cookbook
       | .travis.yml                                          |
       | Berksfile                                            |
       | chefignore                                           |
+      | CODE_OF_CONDUCT.md                                   |
+      | CONTRIBUTING.md                                      |
+      | LICENSE                                              |
       | metadata.rb                                          |
       | Rakefile                                             |
       | README.md                                            |

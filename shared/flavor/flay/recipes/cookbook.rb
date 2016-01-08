@@ -11,10 +11,13 @@ cookbook_file("#{cookbook_dir}/.gitignore") { source "gitignore" }
 cookbook_file("#{cookbook_dir}/.rubocop.yml") { source "rubocop.yml" }
 cookbook_file("#{cookbook_dir}/Berksfile") { action :create_if_missing }
 cookbook_file "#{cookbook_dir}/chefignore"
+cookbook_file "#{cookbook_dir}/CODE_OF_CONDUCT.md"
+cookbook_file "#{cookbook_dir}/CONTRIBUTING.md"
 cookbook_file "#{cookbook_dir}/Rakefile"
 
 flay_template "#{cookbook_dir}/metadata.rb"
 flay_template "#{cookbook_dir}/README.md"
+flay_template "#{cookbook_dir}/LICENSE"
 
 # ChefSpec
 directory("#{cookbook_dir}/test/chef") { recursive true }
