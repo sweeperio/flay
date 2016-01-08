@@ -26,7 +26,7 @@ describe Flay::CLI do
     it "creates a symlink for .chef to default target" do
       expect_any_instance_of(described_class).to receive(:create_link).with(
         File.join(Dir.pwd, ".chef"),
-        "~/.chef-sweeper/"
+        "#{File.expand_path('~/.chef-sweeper')}/"
       )
 
       invoke

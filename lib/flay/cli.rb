@@ -15,7 +15,7 @@ class Flay::CLI < Thor
   desc "link [--chef-path=PATH]", "symlinks .chef to --chef-path"
   long_desc "Creates a symlink in the current directory from .chef to --chef-path"
   def link
-    target_path = options.fetch("chef_path")
+    target_path = File.expand_path(options.fetch("chef_path"))
     target_path << "/" unless target_path.end_with?("/")
 
     create_link File.join(Dir.pwd, ".chef"), target_path
