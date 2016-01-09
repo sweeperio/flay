@@ -1,4 +1,4 @@
-# Flay - A Customizable Chef Cookbook Template
+# Flay - A Customized Chef Cookbook Template with Other Useful Things
 
 [![Build Status](https://travis-ci.org/sweeperio/flay.svg?branch=master)](https://travis-ci.org/sweeperio/flay)
 [![Gem Version](https://badge.fury.io/rb/chef-flavor-flay.svg)](https://badge.fury.io/rb/chef-flavor-flay)
@@ -28,23 +28,7 @@ It's very opinionated and works with the sweeperio infrastructure specifically.
 * Updates all templates to pass `bundle exec rubocop && bundle exec rspec`
 * Adds a travis file for CI that will use the chefdk to run tests
 * Creates a single `test` directory rather than spec/unit and test/integration
-* Adds a _dummy_ `encrypted_data_bag_secret` file for [Test Kitchen]
-* Adds `encrypt_data_bag` rake task for working with encrypted data bags in [Test Kitchen] (see note below)
-
-### Testing Encrypted Data Bags
-
-In order to make testing encrypted data bags easier, there's a convention (and rake task) in place in this template.
-
-The _test/integration/data_bags_ directory should contain subdirectories for each data bag you want to test (just like 
-your chef repo would).
-
-**To create an encrypted data bag item, follow these steps (assuming you're testing ejson/keys):**
-
-* Create `test/integration/data_bags/ejson/keys.plaintext.json` and add your items
-* Run `bundle exec rake encrypt_data_bag[ejson,keys]` (zsh users, you'll need to quote, escape or `unsetopt nomatch`)
-* Notice that `test/integration/data_bags/ejson/keys.json` has been created and contains the encrypted contents
-
-Updating follows the exact same process.
+* Adds a _dummy_ `encrypted_data_bag_secret` file for [Test Kitchen] (see note about testing data bags below)
 
 [Berkshelf]: https://docs.chef.io/berkshelf.html
 [ChefSpec]: https://docs.chef.io/chefspec.html
@@ -72,6 +56,8 @@ Celebrate! :rocket:
 
 * `chef exec flay cookbook my_cookbook`
 * `chef exec flay recipe my_cookbook` (from within the cookbook directory)
+* `chef exec flay encrypt DATA_BAG ITEM (options)`
+* `chef exec flay decrypt DATA_BAG ITEM (options)`
 * `chef exec flay release` (see below)
 
 There are a few other commands available. Run `chef exec flay help` for details.
@@ -93,7 +79,26 @@ It will run:
 * `chef exec berks install`
 * `chef exec berks upload --no-ssl-verify`
 
-### Example
+### Testing Encrypted Data Bags
+
+The _test/integration/data_bags_ directory should contain subdirectories for each data bag you want to test (just like 
+your chef repo would).
+
+**To create an encrypted data bag item, follow these steps (assuming you're testing ejson/keys):**
+
+* Create `test/integration/data_bags/ejson/keys.json` and add your items
+* Run `chef exec flay encrypt ejson keys -t`
+* Notice that `test/integration/data_bags/ejson/keys.json` contains the encrypted contents
+
+**Updating a data bag**
+
+* Decrypt the data bag using `chef exec flay decrypt ejson keys -t`
+* Notice that `test/integration/data_bags/ejson/keys.json` contains the decrypted contents
+* Update the contents as necessary
+* Run `chef exec flay encrypt ejson keys -t`
+* Notice that `test/integration/data_bags/ejson/keys.json` contains the (updated) encrypted contents
+
+### Cookbook Generation Example
 
 ```
 $ chef exec flay generate cookbook chef-demo-flay

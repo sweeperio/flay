@@ -1,7 +1,0 @@
-{
-  "id": "keys",
-  "test": {
-    "public": "12345abc",
-    "private": "cba54321"
-  }
-}

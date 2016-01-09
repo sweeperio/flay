@@ -29,7 +29,6 @@ Feature: chef generate cookbook
       | test/chef/knife.rb                                   |
       | test/chef/client.enc                                 |
       | test/integration/data_bags/ejson/keys.json           |
-      | test/integration/data_bags/ejson/keys.plaintext.json |
       | test/integration/default/serverspec/default_spec.rb  |
       | test/integration/encrypted_data_bag_secret           |
       | test/integration/helpers/serverspec/spec_helper.rb   |
@@ -41,7 +40,6 @@ Feature: chef generate cookbook
     And I list the rake tasks
     Then the exit status should be 0
     And the output should match each of:
-      | ^rake encrypt_data_bag     |
       | ^rake foodcritic           |
       | ^rake rubocop              |
       | ^rake rubocop:auto_correct |
