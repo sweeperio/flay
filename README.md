@@ -77,7 +77,7 @@ It will run:
 * `git tag -a -m "Version #{version}" v#{version}` - unless the tag already exists
 * `git push && git push --tags`
 * `chef exec berks install`
-* `chef exec berks upload --no-ssl-verify`
+* `chef exec berks upload`
 
 ### Testing Encrypted Data Bags
 
