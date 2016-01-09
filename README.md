@@ -86,7 +86,7 @@ this practise because there is no history there. If someone changes an item, how
 something goes wrong?
 
 For this reason, I've added a simple knife plugin that exposes 2 new knife commands `data bag encrypt` and `data bag
-descrypt`. These commands work with json files in the `data_bags/` directory of your chef repo. The basic idea is that
+decrypt`. These commands work with json files in the `data_bags/` directory of your chef repo. The basic idea is that
 you encrypt the items locally, commit to git and then create/update the items from json files.
 
 For example, suppose you have an unencrypted json file at `data_bags/ejson/keys.json` that defines an item. To encrypt
@@ -96,7 +96,7 @@ this item you can run the following command:
 
 This will encrypt the contents using your `encrypted_data_bag_secret` (pulled from chef config/knife.rb).
 
-Similarily there's a `decrypt` version that does the opposite. `knife data bag decrypt ejson keys -w`
+Similarly there's a `decrypt` version that does the opposite. `knife data bag decrypt ejson keys -w`
 
 Both of these commands support the following options:
 
