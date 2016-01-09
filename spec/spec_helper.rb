@@ -7,6 +7,8 @@ SimpleCov.start do
 end
 
 $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+require "chef/knife/data_bag_encrypt"
+require "chef/knife/data_bag_decrypt"
 require "flay"
 require "pry"
 

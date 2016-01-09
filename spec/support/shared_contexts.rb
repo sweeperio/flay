@@ -49,3 +49,12 @@ shared_context "command runners", :command do
     stdout.lines.map(&:chomp)
   end
 end
+
+shared_context "data bag command", :data_bag_command do
+  let(:data_bag)           { "ejson" }
+  let(:data_bag_path)      { File.join(Dir.pwd, "spec", "fixtures", "data_bags") }
+  let(:data_bag_item_path) { File.join(data_bag_path, data_bag, "#{data_bag_item}.json") }
+  let(:data_bag_secret)    { File.join(Dir.pwd, "spec", "fixtures", "encrypted_data_bag_secret") }
+
+  it_behaves_like "a data bag command"
+end

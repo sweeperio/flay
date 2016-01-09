@@ -60,4 +60,64 @@ describe Flay::CLI do
       expect(stdout).to eq("flay version: #{Flay::VERSION}")
     end
   end
+
+  context "#encrypt", :command do
+    let(:command_name) { "encrypt" }
+    it_behaves_like "a command"
+
+    it "encrypts the data bag using knife" do
+      expect_any_instance_of(described_class).to receive(:shell_exec).with(
+        "chef exec knife data bag encrypt users test -w"
+      )
+
+      described_class.start(%w(encrypt users test))
+    end
+
+    it "doesn't write the file if --no-write is specified" do
+      expect_any_instance_of(described_class).to receive(:shell_exec).with(
+        "chef exec knife data bag encrypt users test"
+      )
+
+      described_class.start(%w(encrypt users test --no-write))
+    end
+
+    it "uses test settings when `-t` supplied" do
+      args = "-w -s test/integration/encrypted_data_bag_secret -p test/integration/data_bags"
+      expect_any_instance_of(described_class).to receive(:shell_exec).with(
+        "chef exec knife data bag encrypt users test #{args}"
+      )
+
+      described_class.start(%w(encrypt users test -t))
+    end
+  end
+
+  context "#decrypt", :command do
+    let(:command_name) { "encrypt" }
+    it_behaves_like "a command"
+
+    it "decrypts the data bag using knife" do
+      expect_any_instance_of(described_class).to receive(:shell_exec).with(
+        "chef exec knife data bag decrypt users test -w"
+      )
+
+      described_class.start(%w(decrypt users test))
+    end
+
+    it "doesn't write the file if --no-write is specified" do
+      expect_any_instance_of(described_class).to receive(:shell_exec).with(
+        "chef exec knife data bag decrypt users test"
+      )
+
+      described_class.start(%w(decrypt users test --no-write))
+    end
+
+    it "uses test settings when `-t` supplied" do
+      args = "-w -s test/integration/encrypted_data_bag_secret -p test/integration/data_bags"
+      expect_any_instance_of(described_class).to receive(:shell_exec).with(
+        "chef exec knife data bag decrypt users test #{args}"
+      )
+
+      described_class.start(%w(decrypt users test -t))
+    end
+  end
 end

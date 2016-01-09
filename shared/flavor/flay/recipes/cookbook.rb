@@ -49,10 +49,6 @@ cookbook_file("#{kitchen_dir}/data_bags/ejson/keys.json") do
   source "test/integration/data_bags/ejson/keys.json"
 end
 
-cookbook_file("#{kitchen_dir}/data_bags/ejson/keys.plaintext.json") do
-  source "test/integration/data_bags/ejson/keys.plaintext.json"
-end
-
 cookbook_file "#{kitchen_dir}/helpers/serverspec/spec_helper.rb" do
   source "test/integration/helpers/serverspec/spec_helper.rb"
   action :create_if_missing
