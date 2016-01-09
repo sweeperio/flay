@@ -79,6 +79,47 @@ It will run:
 * `chef exec berks install`
 * `chef exec berks upload`
 
+### Working With Data Bags
+
+Normally data bags are edited directly on the chef server by using the normal `knife data bag` commands. I'm not fond of
+this practise because there is no history there. If someone changes an item, how do you go back to what it was if
+something goes wrong?
+
+For this reason, I've added a simple knife plugin that exposes 2 new knife commands `data bag encrypt` and `data bag
+descrypt`. These commands work with json files in the `data_bags/` directory of your chef repo. The basic idea is that
+you encrypt the items locally, commit to git and then create/update the items from json files.
+
+For example, suppose you have an unencrypted json file at `data_bags/ejson/keys.json` that defines an item. To encrypt
+this item you can run the following command:
+
+`chef exec knife data bag encrypt ejson keys -w`
+
+This will encrypt the contents using your `encrypted_data_bag_secret` (pulled from chef config/knife.rb).
+
+Similarily there's a `decrypt` version that does the opposite. `knife data bag decrypt ejson keys -w`
+
+Both of these commands support the following options:
+
+* `-w` - whether or not to write the file. If false, the results will be printed to STDOUT, but not written to the file.
+    Default `false`
+* `-s` - The path to your encrypted_data_bag_secret file. Default `Chef::Config[:encrypted_data_bag_secret]`
+* `-p` - The path to your data bag directory. Default `Chef::Config[:data_bag_path]`
+
+For example to use test data bags with a custom secret file you could run:
+
+`chef exec knife data bag encrypt -w -s /some/path/to/secret -p /custom/data_bags/dir`
+
+#### Flay Wrappers
+
+For convenience, there are equivalent commands added to flay that really just wrap the call to these commands.
+
+* `flay encrypt DATA_BAG ITEM` - Will encrypt the data bag and write to the file
+* `flay decrypt DATA_BAG ITEM` - Will decrypt the data bag and write to the file
+
+Both of these support the `--no-write` option to prevent writing the result to the file. There is also the `-t` option,
+we sets the secret file and data bag path to `test/integration/encrypted_data_bag_secret` and
+`test/integration/data_bags` respectively.
+
 ### Testing Encrypted Data Bags
 
 The _test/integration/data_bags_ directory should contain subdirectories for each data bag you want to test (just like 
