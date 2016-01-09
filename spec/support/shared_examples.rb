@@ -42,14 +42,12 @@ shared_examples "a data bag command" do
       option = described_class.options.fetch(:data_bag_path)
       expect(option.fetch(:short)).to eq("-p")
       expect(option.fetch(:long)).to eq("--path")
-      expect(option.fetch(:default)).to be_nil
     end
 
     it "includes secret_file option" do
       option = described_class.options.fetch(:secret_file)
       expect(option.fetch(:short)).to eq("-s")
       expect(option.fetch(:long)).to eq("--secret-file")
-      expect(option.fetch(:default)).to be_nil
     end
 
     it "includes write option" do

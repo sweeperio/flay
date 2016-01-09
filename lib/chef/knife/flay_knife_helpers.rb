@@ -4,8 +4,8 @@ require "chef/knife"
 module Chef::Knife::FlayKnifeHelpers
   def self.included(base)
     base.class_eval do
-      option :data_bag_path, short: "-p", long: "--path", default: nil
-      option :secret_file, short: "-s", long: "--secret-file", default: nil
+      option :data_bag_path, short: "-p", long: "--path"
+      option :secret_file, short: "-s", long: "--secret-file"
       option :write, short: "-w", long: "--write", boolean: true, default: false
     end
   end
