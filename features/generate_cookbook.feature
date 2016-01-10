@@ -8,7 +8,7 @@ Feature: chef generate cookbook
     And I set the environment variable "CHEFGEN_FLAVOR" to "flay"
     When I generate a cookbook named "foo"
     Then the exit status should be 0
-    And I cd to "foo"
+    And I cd to "chef-swpr_foo"
 
   Scenario: expected cookbook files are created
     Then the following files should exist:
@@ -34,6 +34,10 @@ Feature: chef generate cookbook
       | test/integration/helpers/serverspec/spec_helper.rb   |
       | test/unit/recipes/default_spec.rb                    |
       | test/unit/spec_helper.rb                             |
+
+  Scenario: cookbook_name in templates includes swpr_ prefix
+    Then the file "README.md" should contain "# swpr_foo"
+    And the file "metadata.rb" should match /^name\s*"swpr_foo"/
 
   Scenario: rake tasks are available
     When I bundle install

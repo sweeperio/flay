@@ -1,5 +1,5 @@
-context      = ChefDK::Generator.context
-cookbook_dir = File.join(context.cookbook_root, context.cookbook_name)
+context      = Flay::Context.current
+cookbook_dir = File.join(context.cookbook_root, context.directory_name)
 kitchen_dir  = File.join(cookbook_dir, "test", "integration")
 
 # Common Cookbook Things

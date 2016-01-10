@@ -3,8 +3,8 @@ Feature: chef generate recipe
   Verifies that `chef generate recipe` works as expected
 
   Background:
-    Given an empty directory named "foo/recipes"
-    When I cd to "foo"
+    Given an empty directory named "chef-swpr_foo/recipes"
+    When I cd to "chef-swpr_foo"
     And I generate a recipe named "test"
 
   Scenario: expected files are created
@@ -14,17 +14,17 @@ Feature: chef generate recipe
       | test/unit/spec_helper.rb       |
 
   Scenario: recipe contains header comments
-    Then the file "recipes/test.rb" should contain "# Cookbook Name:: foo"
+    Then the file "recipes/test.rb" should contain "# Cookbook Name:: swpr_foo"
     And the file "recipes/test.rb" should contain "# Recipe:: test"
 
   Scenario: spec contains header comments
-    Then the file "test/unit/recipes/test_spec.rb" should contain "# Cookbook Name:: foo"
+    Then the file "test/unit/recipes/test_spec.rb" should contain "# Cookbook Name:: swpr_foo"
     And the file "test/unit/recipes/test_spec.rb" should contain "# Spec:: test"
 
   Scenario: spec file contains basic plumbing
     Then the file "test/unit/recipes/test_spec.rb" should contain
     """
-    describe "foo::test" do
+    describe "swpr_foo::test" do
       cached(:chef_run) do
         runner = ChefSpec::SoloRunner.new
         runner.converge(described_recipe)

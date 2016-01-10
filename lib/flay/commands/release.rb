@@ -38,7 +38,7 @@ class Flay::Commands::Release < Thor::Group
 
   def berks_upload
     say "Uploading cookbook to chef server...", :green
-    shell_exec("chef exec berks upload")
+    shell_exec("chef exec berks upload --except=test integration")
   end
 
   def all_done

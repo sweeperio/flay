@@ -2,7 +2,7 @@ describe Flay::Commands::Release, :command, :shell_commands do
   let(:shell_commands) do
     {
       berks_install: ["chef exec berks install", "", ""],
-      berks_upload: ["chef exec berks upload", "", ""],
+      berks_upload: ["chef exec berks upload --except=test integration", "", ""],
       git_root: ["git rev-parse --show-toplevel", Dir.pwd, ""],
       git_clean: ["git diff --exit-code", "", ""],
       git_committed: ["git diff-index --quiet --cached HEAD", "", ""],
