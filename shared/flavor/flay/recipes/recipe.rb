@@ -1,5 +1,5 @@
-context          = ChefDK::Generator.context
-cookbook_dir     = File.join(context.cookbook_root, context.cookbook_name)
+context          = Flay::Context.current
+cookbook_dir     = File.join(context.cookbook_root, context.directory_name)
 recipe_path      = File.join(cookbook_dir, "recipes", "#{context.new_file_basename}.rb")
 spec_helper_path = File.join(cookbook_dir, "test", "unit", "spec_helper.rb")
 spec_path        = File.join(cookbook_dir, "test", "unit", "recipes", "#{context.new_file_basename}_spec.rb")

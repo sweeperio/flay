@@ -12,4 +12,5 @@ require "chef/knife/data_bag_decrypt"
 require "flay"
 require "pry"
 
+require "./shared/flavor/flay/libraries/cookbook"
 Dir["./spec/support/**/*.rb"].each { |f| require f }
