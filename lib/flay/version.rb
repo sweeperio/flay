@@ -1,3 +1,3 @@
 module Flay
-  VERSION = "1.0.1".freeze
+  VERSION = "1.1.0".freeze
 end
